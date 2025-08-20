@@ -1,0 +1,32 @@
+{
+  "name": "hackclubbersvsgoliath",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "python -m venv venv && . ./venv/bin/activate && pip install -r config/requirements.txt && python3 init.py -y",
+    "tailwind": "npx @tailwindcss/cli -i ./static/css/style-input.css -o ./static/css/style.css --watch",
+    "start-DB": "cd config && sudo docker-compose --env-file ../.env up -d",
+    "stop-DB": "cd config && sudo docker-compose --env-file ../.env down",
+    "run": ". ./venv/bin/activate && python app.py",
+    "dev": "concurrently \"npm run tailwind\" \"npm run run\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-Mrk/HackclubbersVsGoliath.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/M-Mrk/HackclubbersVsGoliath/issues"
+  },
+  "homepage": "https://github.com/M-Mrk/HackclubbersVsGoliath#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}
