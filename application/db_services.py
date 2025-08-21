@@ -16,10 +16,11 @@ def register_user(uuid, ip):
     return True
 
 class MonsterObj:
-    def __init__(self, id, name, health, attack_power, url):
+    def __init__(self, id, name, health, max_health, attack_power, url):
         self.id = id
         self.name = name
         self.health = health
+        self.max_health = max_health
         self.attack_power = attack_power
         self.url = url
 
@@ -29,6 +30,7 @@ def get_monster():
         id=current_monster.id,
         name=current_monster.name,
         health=current_monster.health,
+        max_health=current_monster.max_health,
         attack_power=current_monster.attack_power,
         url=current_monster.url
     ) if current_monster else None

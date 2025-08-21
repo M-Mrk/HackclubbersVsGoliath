@@ -36,3 +36,9 @@
         }
      }
 }
+
+@layer base {
+    .health {
+        @apply bg-red-600 rounded h-full w-8 mx-0.5;
+    }
+}

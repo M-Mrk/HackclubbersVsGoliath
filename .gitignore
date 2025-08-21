@@ -1,6 +1,9 @@
 # npm
 node_modules/
 
+# flask
+migrations/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

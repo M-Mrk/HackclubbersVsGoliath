@@ -33,7 +33,7 @@ def get_monster_info():
     from application.db_services import get_monster
     monster = get_monster()
     if monster:
-        return jsonify({ "health": monster.health, "name": monster.name, "url": url_for('static', filename=f'{monster.url}') }), 200
+        return jsonify({ "health": monster.health, "max_health": monster.max_health, "name": monster.name, "url": url_for('static', filename=f'{monster.url}') }), 200
     return jsonify({ "error": "Monster not found" }), 404
 
 if __name__ == "__main__":

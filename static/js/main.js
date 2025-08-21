@@ -74,11 +74,40 @@ function playerAttack() {
     }, 2250);
 }
 
+function arduinoMap(value, in_min, in_max, out_min, out_max) {
+    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+let lastSetMonsterHealth = null;
+function setMonsterHealth(health, maxHealth) {
+    if (lastSetMonsterHealth === health) return;
+    lastSetMonsterHealth = health;
+
+    const healthBar = document.getElementById("MonsterHealth")
+    if (healthBar) {
+        healthBar.innerHTML = '';
+
+        const healthPercentage = arduinoMap(health, in_min = 0, in_max = maxHealth, out_min = 0, out_max = 21);
+        console.log(`Setting monster health: ${health} / ${maxHealth} (${healthPercentage})`);
+        for (let i = healthPercentage; i > 0; i--) {
+            const healthDiv = document.createElement("div");
+            healthDiv.className = "health";
+            healthBar.appendChild(healthDiv);
+        }
+    }
+
+    const healthNumber = document.getElementById("MonsterHealthNumber");
+    if (healthNumber) {
+        healthNumber.textContent = `${health} / ${maxHealth}`;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     const monster = await getMonsterInfo();
     if (monster) {
         setMonsterSrc(monster);
         setMonsterName(monster);
         startIdleMonsterAnimation();
+        setMonsterHealth(monster.health, monster.max_health);
     }
 });
