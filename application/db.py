@@ -18,3 +18,4 @@ class Monsters(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     active = db.Column(db.Boolean, default=False)
     defeated_at = db.Column(db.DateTime, nullable=True)
+    url = db.Column(db.String(200), nullable=True)

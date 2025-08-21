@@ -1,12 +1,54 @@
 {% extends "base.html" %}
+{% block head %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
 {% block content %}
-<div class="bg-yellow-50 w-screen h-screen">
-    <div class="container flex flex-col items-center justify-center">
-        <div class="text-center bg-orange-50">
-            <h1 class="text-4xl font-bold">Hackclubbers vs Goliath</h1>
-            <p class="text-lg mt-2">Can Hackclubbers beat all monsters?</p>
+<div class="w-full bg-white shadow-md py-6 flex flex-col items-center">
+    <h1 class="text-5xl font-extrabold text-gray-900">Hackclubbers vs Goliath</h1>
+    <p class="text-xl text-gray-600 mt-2">Can Hackclubbers beat all monsters?</p>
+</div>
+
+<div class="relative w-full min-h-[calc(100vh-12rem)] flex flex-col items-center justify-end pb-32">
+    <div class="w-full flex justify-center">
+        <div class="relative flex flex-row items-end justify-between mt-8 mb-2 w-[56rem] h-[28rem] px-1 overflow-visible"
+            style="background-image: url('{{ url_for('static', filename='images/background.png') }}'); background-size: cover; background-position: center; border-radius: 1rem;">
+            <div class="relative flex flex-col items-center">
+                <img id="playerLabel" src="{{ url_for('static', filename='images/YouLabel.png') }}" alt="You Label"
+                    class="absolute -top-10 right-0 h-10">
+                <img id="Player" src="{{ url_for('static', filename='images/StickPlayer.png') }}" alt="Player (you)"
+                    class="h-40 drop-shadow-xl z-10 mb-4">
+            </div>
+            <div class="flex-1"></div>
+            <div class="flex flex-col items-center">
+                <div id="monsterNameLabel"
+                    class="hidden mb-2 w-64 h-12 bg-white rounded-lg shadow-lg flex items-center justify-center text-xl font-bold text-gray-900 z-11">
+                </div>
+                <div class="relative flex flex-col items-center">
+                    <img id="currentMonster" src="" alt="Current Monster" class="h-56 drop-shadow-xl z-10 mb-4">
+                    <!-- Explosion effects around the monster -->
+                    <img id="explosion1" src="{{ url_for('static', filename='images/Explosion.gif') }}"
+                        alt="Explosion 1" class="absolute top-0 left-0 h-32 w-32 opacity-0 z-20 pointer-events-none">
+                    <img id="explosion2" src="{{ url_for('static', filename='images/Explosion.gif') }}"
+                        alt="Explosion 2" class="absolute top-8 right-0 h-32 w-32 opacity-0 z-20 pointer-events-none">
+                    <img id="explosion3" src="{{ url_for('static', filename='images/Explosion.gif') }}"
+                        alt="Explosion 3"
+                        class="absolute bottom-4 left-1/2 transform -translate-x-1/2 h-32 w-32 opacity-0 z-20 pointer-events-none">
+                </div>
+            </div>
         </div>
-        
+    </div>
+
+    <div class="w-[28rem] bg-white rounded-lg shadow-lg py-4 px-6 flex flex-col items-center mb-8">
+        <span class="text-gray-900 font-semibold text-lg tracking-wide mb-2">Monster's Health</span>
+        <div class="w-full bg-black rounded h-8 flex items-center justify-center">
+        </div>
+    </div>
+
+    <div class="flex flex-row gap-6 mt-2">
+        <button onclick="playerAttack()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg shadow transition">Strong
+            Attack</button>
+        <button class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg shadow transition">Weak
+            Attack</button>
     </div>
 </div>
 {% endblock %}

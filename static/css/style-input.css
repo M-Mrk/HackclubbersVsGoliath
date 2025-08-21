@@ -1,5 +1,38 @@
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+    --animate-monsterIdle: monsterIdle 1s linear infinite;
+    @keyframes monsterIdle {
+        0% {
+            transform: translateY(0) scale(1) rotate(0deg);
+        }
+        25% {
+            transform: translateX(-3px) rotate(-7deg);
+        }
+        50% {
+            transform: translateY(-5px) scale(1.1) rotate(7deg);
+        }
+        75% {
+            transform: translateX(3px) rotate(7deg);
+        }
+        100% {
+            transform: translateY(0) scale(1) rotate(0deg);
+        }
+    }
+
+    --animate-playerAttack: playerAttack 3s ease-in-out;
+     @keyframes playerAttack {
+        0%, 100% {
+            transform: translateY(0) scale(1) rotate(0deg);
+        }
+        25% {
+            transform: rotateY(0.5turn);
+        }
+        50% {
+            transform: rotateY(2turn);
+        }
+        75% {
+            transform: rotateY(3turn) translateY(-55px) translateX(525px) scale(1.1) rotate(7deg);
+        }
+     }
+}
