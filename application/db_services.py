@@ -1,4 +1,5 @@
 from .db import db, User, Monsters
+from uuid import uuid4
 
 def get_user(uuid=None, ip=None):
     if ip:
@@ -8,12 +9,19 @@ def get_user(uuid=None, ip=None):
     return None
 
 def register_user(uuid, ip):
-    if get_user(uuid=uuid, ip=ip):
-        return False
     new_user = User(uuid=uuid, ip=ip)
     db.session.add(new_user)
     db.session.commit()
-    return True
+
+def get_uuid(uuid=None, ip=None):
+    if not uuid and not ip:
+        raise ValueError("Either uuid or ip must be provided")
+    user = get_user(uuid=uuid, ip=ip)
+    if not user:
+        uuid = str(uuid4())
+        register_user(uuid=uuid, ip=ip)
+        user = get_user(uuid=uuid, ip=ip)
+    return user.uuid if user else None
 
 class MonsterObj:
     def __init__(self, id, name, health, max_health, attack_power, url):
@@ -25,7 +33,7 @@ class MonsterObj:
         self.url = url
 
 def get_monster():
-    current_monster = db.session.query(Monsters).filter_by(active=True).first()
+    current_monster = db.session.query(Monsters).filter_by(active=True).one()
     return MonsterObj(
         id=current_monster.id,
         name=current_monster.name,

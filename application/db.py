@@ -3,10 +3,19 @@ from datetime import datetime, timezone
 
 db = SQLAlchemy()
 
+class Attacks(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    monster_id = db.Column(db.Integer, db.ForeignKey('monsters.id'), nullable=False)
+    damage = db.Column(db.Integer, nullable=False)
+    attack_type = db.Column(db.String(10), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(50), nullable=False)
-    attacked = db.Column(db.Boolean, default=False)
+    uuid = db.Column(db.String(36), unique=True, nullable=False)
+    attacked_at = db.Column(db.DateTime, nullable=True)
     small_attacks = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 

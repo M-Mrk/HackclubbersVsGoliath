@@ -102,6 +102,33 @@ function setMonsterHealth(health, maxHealth) {
     }
 }
 
+async function getPlayerAttackStatus() {
+    const response = await fetch("/api/attack", {
+        method: "GET"
+    });
+    if (response.ok) {
+        const monster = await response.json();
+        console.log(monster);
+        return monster;
+    } else {
+        console.error("Failed to fetch attack info");
+        return null;
+    }
+}
+
+async function attackCycle(runOnce=false) {
+    const attack = await getPlayerAttackStatus();
+    if (attack) {
+        // Process the attack information
+    }
+
+    if (!runOnce) {
+        setTimeout(() => {
+            attackCycle();
+        }, 5000);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     const monster = await getMonsterInfo();
     if (monster) {
@@ -110,4 +137,5 @@ document.addEventListener("DOMContentLoaded", async () => {
         startIdleMonsterAnimation();
         setMonsterHealth(monster.health, monster.max_health);
     }
+    attackCycle();
 });

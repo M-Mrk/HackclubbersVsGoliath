@@ -13,7 +13,7 @@
         <div class="relative flex flex-row items-end justify-between mt-8 mb-2 w-[56rem] h-[28rem] px-1 overflow-visible"
             style="background-image: url('{{ url_for('static', filename='images/background.png') }}'); background-size: cover; background-position: center; border-radius: 1rem;">
             <div class="relative flex flex-col items-center">
-                <img id="playerLabel" src="{{ url_for('static', filename='images/YouLabel.png') }}" alt="You Label"
+                <img id="playerLabel" src="{{ url_for('static', filename='images/YouLabel.gif') }}" alt="You Label"
                     class="absolute -top-10 right-0 h-10">
                 <img id="Player" src="{{ url_for('static', filename='images/StickPlayer.png') }}" alt="Player (you)"
                     class="h-40 drop-shadow-xl z-10 mb-4">
@@ -50,12 +50,25 @@
         </div>
     </div>
 
-    <div class="flex flex-row gap-6 mt-2">
+    <div class="grid grid-cols-2 gap-2 mt-8">
         <button onclick="playerAttack()"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg shadow transition">Strong
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-10 rounded-lg shadow transition">Strong
             Attack</button>
-        <button class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg shadow transition">Weak
+        <button
+            class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-10 rounded-lg shadow transition">Weak
             Attack</button>
+        <h4 class=" rounded bg-gray-300 p-2 mt-6 w-auto text-center" id="strongAttackStatus">unknown</h4>
+        <h4 class="rounded bg-gray-300 p-2 mt-6 w-auto text-center" id="weakAttackStatus">Always ready</h4>
+    </div>
+
+    <div class="flex flex-col items-center mt-16 border-t-4 border-gray-300 pt-4">
+        <h1 class="text-4xl font-bold text-gray-900">What is this?</h1>
+        <div class="flex flex-row mt-4 w-1/2">
+            In Hackclubbers vs Goliath, we all battle together against one monster. Everyone can contribute to the fight
+            by attacking the monster, but everyone can only use their strong Attack once every 24h.
+            So the question is can we defeat all Monsters?
+        </div>
+
     </div>
 </div>
 {% endblock %}
