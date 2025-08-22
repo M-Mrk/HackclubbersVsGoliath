@@ -9,10 +9,10 @@ def get_attack_status(user_uuid):
     user = db.session.query(User).filter_by(uuid=user_uuid).one()
     if user.attacked_at:
         current_time = datetime.now(timezone.utc)
-        if current_time - user.attacked_at > COOLDOWN:
+        if current_time - user.attacked_at.replace(tzinfo=timezone.utc) > COOLDOWN:
             return True
         else:
-            time_left = COOLDOWN - (current_time - user.attacked_at)
+            time_left = COOLDOWN - (current_time - user.attacked_at.replace(tzinfo=timezone.utc))
             return time_left
     return True
 
@@ -34,6 +34,5 @@ def attack_weak_monster(user_uuid):
     attack = Attacks(user_id=user.id, monster_id=monster.id, damage=WEAK_MONSTER_DAMAGE, attack_type="weak")
     db.session.add(attack)
     monster.health -= WEAK_MONSTER_DAMAGE
-    user.attacked_at = datetime.now(timezone.utc)
     db.session.commit()
     return True

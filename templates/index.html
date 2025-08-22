@@ -17,6 +17,8 @@
                     class="absolute -top-10 right-0 h-10">
                 <img id="Player" src="{{ url_for('static', filename='images/StickPlayer.png') }}" alt="Player (you)"
                     class="h-40 drop-shadow-xl z-10 mb-4">
+                <img id="fireball" src="{{ url_for('static', filename='images/fireball.gif') }}" alt="Fireball"
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 h-16 w-16 opacity-0 z-15 pointer-events-none">
             </div>
             <div class="flex-1"></div>
             <div class="flex flex-col items-center">
@@ -54,11 +56,13 @@
         <button onclick="playerAttack()"
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-10 rounded-lg shadow transition">Strong
             Attack</button>
-        <button
+        <button onclick="weakAttack()" id="weakAttackButton"
             class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-10 rounded-lg shadow transition">Weak
             Attack</button>
         <h4 class=" rounded bg-gray-300 p-2 mt-6 w-auto text-center" id="strongAttackStatus">unknown</h4>
-        <h4 class="rounded bg-gray-300 p-2 mt-6 w-auto text-center" id="weakAttackStatus">Always ready</h4>
+        <div class="rounded bg-gray-300 p-2 mt-6 w-auto text-center flex justify-center" id="weakAttackStatus">
+            <div class="w-full h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded"></div>
+        </div>
     </div>
 
     <div class="flex flex-col items-center mt-16 border-t-4 border-gray-300 pt-4">

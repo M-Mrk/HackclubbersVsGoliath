@@ -2,39 +2,85 @@
 
 @theme {
     --animate-monsterIdle: monsterIdle 1s linear infinite;
+
     @keyframes monsterIdle {
         0% {
             transform: translateY(0) scale(1) rotate(0deg);
         }
+
         25% {
             transform: translateX(-3px) rotate(-7deg);
         }
+
         50% {
             transform: translateY(-5px) scale(1.1) rotate(7deg);
         }
+
         75% {
             transform: translateX(3px) rotate(7deg);
         }
+
         100% {
             transform: translateY(0) scale(1) rotate(0deg);
         }
     }
 
     --animate-playerAttack: playerAttack 3s ease-in-out;
-     @keyframes playerAttack {
-        0%, 100% {
+
+    @keyframes playerAttack {
+
+        0%,
+        100% {
             transform: translateY(0) scale(1) rotate(0deg);
         }
+
         25% {
             transform: rotateY(0.5turn);
         }
+
         50% {
             transform: rotateY(2turn);
         }
+
         75% {
             transform: rotateY(3turn) translateY(-55px) translateX(525px) scale(1.1) rotate(7deg);
         }
-     }
+    }
+
+    --animate-fireballAttack: fireballAttack 1s ease-in;
+
+    @keyframes fireballAttack {
+        0% {
+            transform: translateX(0) translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        90% {
+            transform: translateX(550px) translateY(0) scale(1.2);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(550px) translateY(0) scale(1.2);
+            opacity: 0;
+        }
+    }
+
+    --animate-healthChange: healthChange 1s ease-in-out;
+
+    @keyframes healthChange {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
 }
 
 @layer base {
