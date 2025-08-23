@@ -316,11 +316,28 @@ async function attackCycle(runOnce = false) {
 
 async function monsterCycle(runOnce = false) {
     const monster = await getMonsterInfo();
+    const noPeaceContainer = document.getElementById("NonPeaceContainer");
+    const peaceContainer = document.getElementById("PeaceContainer");
     if (monster) {
-        setMonsterSrc(monster);
-        setMonsterName(monster);
-        startIdleMonsterAnimation();
-        setMonsterHealth(monster.health, monster.max_health);
+        if (!monster.peace) {
+            if (noPeaceContainer.classList.contains("hidden")) {
+                noPeaceContainer.classList.remove("hidden");
+            }
+            if (!peaceContainer.classList.contains("hidden")) {
+                peaceContainer.classList.add("hidden");
+            }
+            setMonsterSrc(monster);
+            setMonsterName(monster);
+            startIdleMonsterAnimation();
+            setMonsterHealth(monster.health, monster.max_health);
+        } else {
+            if (!noPeaceContainer.classList.contains("hidden")) {
+                noPeaceContainer.classList.add("hidden");
+            }
+            if (peaceContainer.classList.contains("hidden")) {
+                peaceContainer.classList.remove("hidden");
+            }
+        }
     }
 
     if (!runOnce) {
@@ -330,8 +347,34 @@ async function monsterCycle(runOnce = false) {
     }
 }
 
+async function getLastAttacks() {
+    const response = await fetch("/api/last_attacks");
+    if (!response.ok) {
+        console.error("Failed to fetch last attacks");
+        return [];
+    }
+    return await response.json();
+}
+
+async function setLastAttacks() {
+    const lastAttackTableBody = document.getElementById("lastAttackTableBody");
+    if (!lastAttackTableBody) return;
+
+    const lastAttacks = await getLastAttacks();
+    lastAttackTableBody.innerHTML = "";
+    for (const attack of lastAttacks) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="border border-gray-300 px-16 py-1" >${attack.type}</td>
+            <td class="border border-gray-300 px-16 py-1" >${attack.time_ago}</td>
+        `;
+        lastAttackTableBody.appendChild(row);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     setWeakAttackStatus(0);
     attackCycle();
     monsterCycle();
+    setLastAttacks();
 });

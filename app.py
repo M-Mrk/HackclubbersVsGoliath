@@ -3,6 +3,7 @@ from application.db import db
 import os
 from dotenv import load_dotenv
 from flask_migrate import Migrate
+from datetime import datetime, timezone
 
 load_dotenv()
 
@@ -34,8 +35,9 @@ def get_monster_info():
     from application.db_services import get_monster
     monster = get_monster()
     if monster:
-        return jsonify({ "health": monster.health, "max_health": monster.max_health, "name": monster.name, "url": url_for('static', filename=f'{monster.url}') }), 200
-    return jsonify({ "error": "Monster not found" }), 404
+        return jsonify({ "peace": False, "health": monster.health, "max_health": monster.max_health, "name": monster.name, "url": url_for('static', filename=f'{monster.url}') }), 200
+    else:
+        return jsonify({ "peace": True }), 200
 
 @app.route("/api/attack", methods=["POST", "GET"])
 def attack_monster():
@@ -64,5 +66,12 @@ def attack_monster():
         else:
             return jsonify({ "error": "Attack failed" }), 500
 
+@app.route("/api/last_attacks", methods=["GET"])
+def get_last_attacks():
+    from application.db_services import get_last_attacks
+    last_attacks = get_last_attacks()
+    return jsonify([{"type": attack.attack_type, "time_ago": f"{(datetime.now(timezone.utc) - (attack.created_at if attack.created_at.tzinfo else attack.created_at.replace(tzinfo=timezone.utc))).total_seconds() // 60:.0f} minutes ago"} for attack in last_attacks]), 200
+
 if __name__ == "__main__":
+    print(datetime.now(timezone.utc))
     app.run(debug=True)

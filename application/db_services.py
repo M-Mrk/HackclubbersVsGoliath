@@ -1,4 +1,4 @@
-from .db import db, User, Monsters
+from .db import db, User, Monsters, Attacks
 from uuid import uuid4
 
 def get_user(uuid=None, ip=None):
@@ -33,12 +33,19 @@ class MonsterObj:
         self.url = url
 
 def get_monster():
-    current_monster = db.session.query(Monsters).filter_by(active=True).one()
-    return MonsterObj(
-        id=current_monster.id,
-        name=current_monster.name,
-        health=current_monster.health,
-        max_health=current_monster.max_health,
-        attack_power=current_monster.attack_power,
-        url=current_monster.url
-    ) if current_monster else None
+    try:
+        current_monster = db.session.query(Monsters).filter_by(active=True).one()
+        return MonsterObj(
+            id=current_monster.id,
+            name=current_monster.name,
+            health=current_monster.health,
+            max_health=current_monster.max_health,
+            attack_power=current_monster.attack_power,
+            url=current_monster.url
+        ) if current_monster else None
+    except Exception as e:
+        print(f"Error fetching monster: {e}")
+        return None
+
+def get_last_attacks():
+    return db.session.query(Attacks).order_by(Attacks.created_at.desc()).limit(10).all()

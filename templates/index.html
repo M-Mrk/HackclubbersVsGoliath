@@ -8,7 +8,8 @@
     <p class="text-xl text-gray-600 mt-2">Can Hackclubbers beat all monsters?</p>
 </div>
 
-<div class="relative w-full min-h-[calc(100vh-12rem)] flex flex-col items-center justify-end pb-32">
+<div class="relative w-full min-h-[calc(100vh-12rem)] flex flex-col items-center justify-end">
+    <div id="NonPeaceContainer" class="relative w-full min-h-[calc(100vh-12rem)] flex flex-col items-center justify-end pb-32">
     <div class="w-full flex justify-center">
         <div class="relative flex flex-row items-end justify-between mt-8 mb-2 w-[56rem] h-[28rem] px-1 overflow-visible"
             style="background-image: url('{{ url_for('static', filename='images/background.png') }}'); background-size: cover; background-position: center; border-radius: 1rem;">
@@ -52,25 +53,59 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-2 mt-8">
+    <div class="grid grid-cols-2 gap-2 mt-8 px-8">
         <button onclick="playerAttack()"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-10 rounded-lg shadow transition">Strong
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-12 py-10 rounded-lg shadow transition">Strong
             Attack</button>
         <button onclick="weakAttack()" id="weakAttackButton"
-            class="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-10 rounded-lg shadow transition">Weak
+            class="bg-green-600 hover:bg-green-700 text-white font-bold px-12 py-10 rounded-lg shadow transition">Weak
             Attack</button>
         <h4 class=" rounded bg-gray-300 p-2 mt-6 w-auto text-center" id="strongAttackStatus">unknown</h4>
         <div class="rounded bg-gray-300 p-2 mt-6 w-auto text-center flex justify-center" id="weakAttackStatus">
             <div class="w-full h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded"></div>
         </div>
     </div>
+    </div>
 
-    <div class="flex flex-col items-center mt-16 border-t-4 border-gray-300 pt-4">
+    <div id="PeaceContainer" class="hidden relative w-full min-h-[calc(100vh-12rem)] flex flex-col items-center justify-end pb-32 mt-4">
+        <h1 class="text-4xl font-bold text-gray-900">We did it! All Monsters were slain</h1>
+        <p>Thank you for your contributions! For now everyone and their projects is safe again.</p>
+
+        <div class="relative flex flex-row items-end justify-between mt-8 mb-2 w-[56rem] h-[28rem] px-1 overflow-visible"
+            style="background-image: url('{{ url_for('static', filename='images/peace.png') }}'); background-size: cover; background-position: center; border-radius: 1rem;">
+    </div>
+
+    <div class="flex flex-col items-center mt-1 border-t-4 border-gray-300 pt-4">
         <h1 class="text-4xl font-bold text-gray-900">What is this?</h1>
         <div class="flex flex-row mt-4 w-1/2">
             In Hackclubbers vs Goliath, we all battle together against one monster. Everyone can contribute to the fight
             by attacking the monster, but everyone can only use their strong Attack once every 24h.
             So the question is can we defeat all Monsters?
+        </div>
+
+    </div>
+
+    <div class="flex flex-col items-center mt-16 border-t-4 border-gray-300 pt-4">
+        <h1 class="text-4xl font-bold text-gray-900">Last Attacks</h1>
+        <div class="w-full overflow-x-auto flex justify-center px-4">
+            <table class="table-auto border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 px-8 py-1 text-left">Attack Type</th>
+                        <th class="border border-gray-300 px-8 py-1 text-left">When</th>
+                    </tr>
+                </thead>
+                <tbody id="lastAttackTableBody">
+                    <!-- <tr>
+                <td class="border border-gray-300 px-8 py-0.5">Strong</td>
+                <td class="border border-gray-300 px-8 py-0.5">Just Now</td>
+                </tr>
+                <tr class="bg-gray-100">
+                <td class="border border-gray-300 px-8 py-0.5">Weak</td>
+                <td class="border border-gray-300 px-8 py-0.5">5 Minutes Ago</td>
+                </tr> -->
+                </tbody>
+            </table>
         </div>
 
     </div>
