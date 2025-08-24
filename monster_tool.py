@@ -111,6 +111,43 @@ def writable_menu(options):
 
         clear_lines(len(options))
 
+def writable_menu_preset(entries):
+    current_hover = 0
+    entry = WriteReturn(name="Done", value="")
+    entries.append(entry)
+    while True:
+        for index, entry in enumerate(entries):
+            if index == current_hover:
+                before = "> " + Fore.CYAN
+            else:
+                before = "  "
+            if entry.name == "Done":
+                print(before + "Done?" + Style.RESET_ALL)
+            else:
+                value = entry.value
+                print(before + entry.name + Style.RESET_ALL + ":" + value)
+        
+        user_input = readchar.readkey()
+        if user_input == readchar.key.UP:
+            current_hover -= 1
+        elif user_input == readchar.key.DOWN or user_input == readchar.key.ENTER:
+            if current_hover == (len(entries) - 1) and user_input == readchar.key.ENTER:
+                clear_lines(len(entries))
+                return entries[:-1]
+            current_hover += 1
+        elif user_input == readchar.key.BACKSPACE:
+            if len(entries[current_hover].value) > 0:
+                entries[current_hover].value = entries[current_hover].value[:-1]
+        else:
+            entries[current_hover].value += user_input
+
+        if current_hover > (len(entries)-1):
+            current_hover = 0
+        if current_hover < 0:
+            current_hover = (len(entries)-1)
+
+        clear_lines(len(entries))
+
 # DATESPACING = 21
 # datespacer = ""
 # for x in range((DATESPACING/2)):
@@ -178,6 +215,32 @@ def add_monster():
             print(Fore.RED + f"Could not add Monster, because of: {e}" + Style.RESET_ALL)
             return
 
+def edit_monster():
+    app = get_app()
+    with app.app_context():
+        monsters = get_all_monsters()
+        selection_options = [OptionSel(monster.name, monster.id) for monster in monsters]
+        user_selection = selection_menu(selection_options)
+        selected_monster = db.session.query(Monsters).filter_by(id=user_selection).first()
+        monster_attributes = ["name", "health", "max_health", "attack_power", "created_at", "active", "defeated_at", "url"]
+        menu_entries = []
+        for attribute in monster_attributes:
+            entry = WriteReturn(name=attribute, value=str(getattr(selected_monster, attribute, "")))
+            menu_entries.append(entry)
+
+
+        changed_attributes = writable_menu_preset(menu_entries)
+        for attribute in changed_attributes:
+            value = attribute.value
+            if value.lower() == "true":
+                value = True
+            if value.lower() == "false":
+                value = False
+
+            setattr(selected_monster, attribute.name, value)
+
+        db.session.commit()
+
 def main():
     try:
         print(Fore.CYAN + "Fetching Monsters from DB...")
@@ -208,7 +271,7 @@ def main():
             elif user_decision == "add":
                 add_monster()
             elif user_decision == "edit":
-                print(Fore.YELLOW + "Edit Monster is not implemented yet." + Style.RESET_ALL)
+                edit_monster()
         
             
 
