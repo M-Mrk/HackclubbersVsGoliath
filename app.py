@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from flask_migrate import Migrate
 from datetime import datetime, timezone
+import waitress
 
 load_dotenv()
 
@@ -74,4 +75,5 @@ def get_last_attacks():
 
 if __name__ == "__main__":
     print(datetime.now(timezone.utc))
-    app.run(debug=True)
+    # app.run(debug=True)
+    waitress.serve(app, host="0.0.0.0", port=5000)
