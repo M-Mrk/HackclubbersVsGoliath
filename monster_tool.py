@@ -232,9 +232,9 @@ def edit_monster():
         changed_attributes = writable_menu_preset(menu_entries)
         for attribute in changed_attributes:
             value = attribute.value
-            if value.lower() == "true":
+            if not type(value) == bool and value.lower() == "true":
                 value = True
-            if value.lower() == "false":
+            if not type(value) == bool and value.lower() == "false":
                 value = False
 
             setattr(selected_monster, attribute.name, value)
